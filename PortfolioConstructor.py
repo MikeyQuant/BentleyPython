@@ -66,7 +66,7 @@ def portfolio_weight_matrix():
 
 
     df.to_csv("cannabis-portfolioMatrix7.csv")
-    os.startfile("cannabis-portfolioMatrix7.csv")
+    #os.startfile("cannabis-portfolioMatrix7.csv")
 ###MUST REFORMAT MATRIX COLUMNS TO ONLY INCLUDE PORTFOLIO WEIGHT COMBINATIONS OF 2 STOCKS
 def matrix_statistics():
     df=pd.read_csv("cannabis-portfolioMatrix7.csv",index_col=0)
@@ -77,7 +77,9 @@ def matrix_statistics():
     for combo in df:
         print(combo)
         mean=(df[combo].mean())
-        std=statistics.stdev(df[combo].to_list())
+        print(df[combo])
+        std=statistics.stdev(df[combo].dropna().to_list())
+        print(std)
         combos.append(combo)
         ameans.append(mean)
         stdvs.append(std)
@@ -95,12 +97,13 @@ def matrix_statistics():
     for index,x in enumerate(df["combo"]):
         df["Sharpe"][index]=(df["Mean"][index]-spymean)/df["STD"][index]
         sharps.append(df["Sharpe"][index])
-        if [x.split(" ")[0],x.split(" ")[2]] not in stocks:
-            try:
-                stocks.append([x.split(" ")[0],x.split(" ")[2]])
-                print([x.split(" ")[0],x.split(" ")[2]])
-            except:
-                pass
+        if "."in x:
+            if [x.split(" ")[0],x.split(" ")[2]] not in stocks:
+                try:
+                    stocks.append([x.split(" ")[0],x.split(" ")[2]])
+                    print([x.split(" ")[0],x.split(" ")[2]])
+                except:
+                    pass
     print(stocks)
     print(df)
     import plotly.graph_objects as go
@@ -120,13 +123,14 @@ def matrix_statistics():
         maxstd=0
         print(pair)
         for index,x in enumerate(df["combo"]):
-            if [x.split(" ")[0],x.split(" ")[2]]==pair:
+            if "." in x or "0" in x:
+                if [x.split(" ")[0],x.split(" ")[2]]==pair:
 
-                combos.append(x)
-                stds.append(df["STD"][index])
+                    combos.append(x)
+                    stds.append(df["STD"][index])
 
 
-                means.append(df["Mean"][index])
+                    means.append(df["Mean"][index])
         df1=pd.DataFrame({'STD': stds, 'mean return': means })
         print(df1)
     # plot
