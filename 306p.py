@@ -95,7 +95,7 @@ spy = get_data("SPY",start_date=start_date,end_date=end_date,interval='1mo')
 
 dfcomp.to_csv("cannabis-comp2.csv")
 portfolio_weight_matrix()
-input("REFORMAT COLUMNS TO ONLY INCLUDE 2 STOCK WEIGHTS!!! input to continue: ")
+#input("REFORMAT COLUMNS TO ONLY INCLUDE 2 STOCK WEIGHTS!!! input to continue: ")
 matrix_statistics()
 
 '''print(spy)
